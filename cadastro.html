@@ -1,0 +1,57 @@
+<!-- Protótipo MedTime - Tela de Cadastro. Somente Front-end, sem integração real. -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar Conta - MedTime</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><rect width='32' height='32' fill='%232563EB'/></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <header class="header">
+    <a href="index.html" class="logo" aria-label="Voltar para início">MedTime</a>
+  </header>
+  <main class="main">
+    <section class="auth-card">
+      <h1 class="auth-card__title">Criar Conta</h1>
+      <form class="auth-card__form" id="registerForm" autocomplete="on" novalidate>
+        <div class="form-field">
+          <label for="first-name" class="form-field__label">Primeiro Nome <span aria-label="obrigatório" title="obrigatório" class="form-field__required">*</span></label>
+          <input type="text" id="first-name" name="firstName" class="form-field__input" required autocomplete="given-name" tabindex="1">
+        </div>
+        <div class="form-field">
+          <label for="last-name" class="form-field__label">Último Nome <span aria-label="obrigatório" title="obrigatório" class="form-field__required">*</span></label>
+          <input type="text" id="last-name" name="lastName" class="form-field__input" required autocomplete="family-name" tabindex="2">
+        </div>
+        <div class="form-field">
+          <label for="birth-date" class="form-field__label">Data de Nascimento <span aria-label="obrigatório" title="obrigatório" class="form-field__required">*</span></label>
+          <input type="date" id="birth-date" name="birthDate" class="form-field__input" required tabindex="3">
+        </div>
+        <div class="form-field">
+          <label for="register-phone" class="form-field__label">Telefone <span aria-label="obrigatório" title="obrigatório" class="form-field__required">*</span></label>
+          <input type="tel" id="register-phone" name="phone" class="form-field__input" required placeholder="(xx) xxxxx-xxxx" autocomplete="tel" tabindex="4">
+        </div>
+        <div class="form-field">
+          <label for="register-password" class="form-field__label">Senha <span aria-label="obrigatório" title="obrigatório" class="form-field__required">*</span></label>
+          <input type="password" id="register-password" name="password" class="form-field__input" required autocomplete="new-password" tabindex="5">
+        </div>
+        <div class="form-field">
+          <label for="confirm-password" class="form-field__label">Confirmar Senha <span aria-label="obrigatório" title="obrigatório" class="form-field__required">*</span></label>
+          <input type="password" id="confirm-password" name="confirmPassword" class="form-field__input" required autocomplete="new-password" tabindex="6">
+        </div>
+        <div class="auth-card__actions">
+          <button type="submit" class="btn btn--primary" tabindex="7">Salvar</button>
+          <a href="index.html" class="btn btn--secondary" tabindex="8">Voltar</a>
+        </div>
+        <div class="form-messages" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+  <footer class="footer">
+    <span>© 2025 MedTime</span> · <a href="#">Termos</a> / <a href="#">Privacidade</a>
+  </footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
