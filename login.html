@@ -1,0 +1,44 @@
+<!-- Protótipo MedTime - Tela de Login. Somente Front-end, sem integração real. -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar - MedTime</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><rect width='32' height='32' fill='%232563EB'/></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <header class="header">
+    <a href="index.html" class="logo" aria-label="Voltar para início">MedTime</a>
+  </header>
+  <main class="main">
+    <section class="auth-card">
+      <h1 class="auth-card__title">Entrar</h1>
+      <form class="auth-card__form" id="loginForm" autocomplete="on" novalidate>
+        <div class="form-field">
+          <label for="login-phone" class="form-field__label">Telefone</label>
+          <input type="tel" id="login-phone" name="phone" class="form-field__input" required placeholder="(xx) xxxxx-xxxx" autocomplete="tel" tabindex="1">
+        </div>
+        <div class="form-field">
+          <label for="login-password" class="form-field__label">Senha</label>
+          <input type="password" id="login-password" name="password" class="form-field__input" required autocomplete="current-password" tabindex="2">
+        </div>
+        <div class="auth-card__actions">
+          <button type="submit" class="btn btn--primary" tabindex="3">Entrar</button>
+          <a href="index.html" class="btn btn--secondary" tabindex="4">Voltar</a>
+        </div>
+        <div class="auth-card__links">
+          <a href="#" class="auth-card__forgot" tabindex="5">Esqueci a senha</a>
+        </div>
+        <div class="form-messages" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+  <footer class="footer">
+    <span>© 2025 MedTime</span> · <a href="#">Termos</a> / <a href="#">Privacidade</a>
+  </footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
