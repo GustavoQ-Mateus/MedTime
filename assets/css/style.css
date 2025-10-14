@@ -52,9 +52,11 @@ body {
 .footer a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 2px; margin: 0 0.3em; }
 
 /* Topbar fixa para área autenticada */
-.topbar { position: sticky; top: 0; z-index: 50; width: 100%; background: var(--color-card-bg); border-bottom: 1px solid #33415522; display: flex; align-items: center; justify-content: space-between; padding: .6rem 1rem; }
+.topbar { position: sticky; top: 0; z-index: 50; width: 100%; background: var(--color-card-bg); border-bottom: 1px solid #33415522; display: flex; align-items: center; justify-content: space-between; padding: calc(.6rem + env(safe-area-inset-top, 0px)) calc(1rem + env(safe-area-inset-right, 0px)) .6rem calc(1rem + env(safe-area-inset-left, 0px)); }
 .topbar__brand { font-weight: 700; font-size: 1.1rem; color: var(--color-primary); text-decoration: none; letter-spacing: .02em; }
 .topbar__nav { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+.topbar__toggle { display: none; background: transparent; border: 1px solid #94a3b8; border-radius: .5rem; padding: .4rem .55rem; color: var(--color-text); }
+.topbar__toggle span { display: block; width: 20px; height: 2px; background: currentColor; margin: 4px 0; }
 .btn--sm { padding: .5rem .7rem; font-size: .95rem; box-shadow: none; }
 .topbar__nav a.is-active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
 
@@ -67,6 +69,42 @@ body {
 .card__meta { color: #64748b; font-size: .95rem; }
 .badge { display: inline-block; padding: .15rem .5rem; border: 1px solid #94a3b8; border-radius: 999px; font-size: .85rem; color: #334155; }
 .countdown { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+/* Melhorar alvos de toque em telas touch */
+@media (pointer: coarse) {
+  .btn, .btn.btn--sm { min-height: 44px; }
+  .topbar__nav a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
+}
+
+/* Tipografia responsiva */
+@media (min-width: 768px) {
+  .section__title { font-size: clamp(1.8rem, 2.2vw, 2.4rem); }
+  .hero__title { font-size: clamp(2rem, 3vw, 3rem); }
+}
+@media (min-width: 1024px) {
+  .section__title { font-size: clamp(2rem, 2.4vw, 2.75rem); }
+  .hero__title { font-size: clamp(2.25rem, 3.2vw, 3.5rem); }
+}
+
+/* Nav hamburguer em telas estreitas */
+@media (max-width: 640px) {
+  .topbar { align-items: center; }
+  .topbar__toggle { display: inline-block; }
+  .topbar__nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--color-card-bg); border-bottom: 1px solid #33415522; padding: .5rem; }
+  .topbar.is-open .topbar__nav { display: flex; flex-wrap: wrap; gap: .5rem; }
+}
+
+/* Espaçamento e grid responsivos para a lista */
+@media (max-width: 640px) {
+  .list { gap: 1rem; }
+}
+@media (min-width: 768px) {
+  .list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  /* Tornar os cards mais largos no desktop */
+  .list { grid-template-columns: repeat(auto-fit, minmax(520px, 1fr)); }
+}
 
 /* Modal simples */
 .modal { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 100; }
