@@ -9,19 +9,63 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="header">
-    <a href="index.html" class="logo">MedTime</a>
+  <header class="topbar">
+    <a href="lista-medicamentos.html" class="topbar__brand" aria-label="MedTime">MedTime</a>
+    <nav class="topbar__nav" aria-label="Navegação principal">
+      <a class="btn btn--ghost btn--sm" href="perfil.html">Perfil</a>
+      <a class="btn btn--ghost btn--sm" href="lista-medicamentos.html">Lista</a>
+      <a class="btn btn--ghost btn--sm" href="cadastrar-medicamentos.html">Cadastrar</a>
+      <a class="btn btn--outline btn--sm" href="configuracoes.html">Configurações</a>
+      <button type="button" class="btn btn--primary btn--sm" onclick="window.MedTimeSession.logout()">Sair</button>
+    </nav>
   </header>
   <main class="main">
     <section class="section">
       <h1 class="section__title">Perfil</h1>
+      <form id="profileForm" class="auth-card__form" autocomplete="on" novalidate>
+        <div class="form-field">
+          <label for="pf-first-name" class="form-field__label">Primeiro Nome</label>
+          <input type="text" id="pf-first-name" class="form-field__input" autocomplete="given-name">
+        </div>
+        <div class="form-field">
+          <label for="pf-last-name" class="form-field__label">Último Nome</label>
+          <input type="text" id="pf-last-name" class="form-field__input" autocomplete="family-name">
+        </div>
+        <div class="form-field">
+          <label for="pf-birth-date" class="form-field__label">Data de Nascimento</label>
+          <input type="date" id="pf-birth-date" class="form-field__input">
+        </div>
+        <div class="form-field">
+          <label for="pf-phone" class="form-field__label">Telefone</label>
+          <input type="tel" id="pf-phone" class="form-field__input" autocomplete="tel">
+        </div>
+        <div class="form-field">
+          <label for="pf-gender" class="form-field__label">Gênero</label>
+          <select id="pf-gender" class="form-field__input">
+            <option value="">Selecione</option>
+            <option value="feminino">Feminino</option>
+            <option value="masculino">Masculino</option>
+            <option value="nao-binario">Não-binário</option>
+            <option value="outro">Outro</option>
+            <option value="prefiro-nao-informar">Prefiro não informar</option>
+          </select>
+        </div>
+        <div class="form-field" style="display:flex; gap:.75rem;">
+          <div style="flex:1;">
+            <label for="pf-height" class="form-field__label">Altura (cm)</label>
+            <input type="number" id="pf-height" class="form-field__input" inputmode="decimal" min="0" step="0.1" placeholder="170">
+          </div>
+          <div style="flex:1;">
+            <label for="pf-weight" class="form-field__label">Peso (kg)</label>
+            <input type="number" id="pf-weight" class="form-field__input" inputmode="decimal" min="0" step="0.1" placeholder="70">
+          </div>
+        </div>
+        <div class="auth-card__actions">
+          <button type="submit" class="btn btn--primary">Salvar Alterações</button>
+        </div>
+        <div class="form-messages" id="pf-messages" aria-live="polite"></div>
+      </form>
       
-  <nav class="app-nav">
-        <a class="btn btn--outline" href="perfil.html">Perfil</a>
-        <a class="btn btn--outline" href="lista-medicamentos.html">Lista Medicamentos</a>
-        <a class="btn btn--outline" href="cadastrar-medicamentos.html">Cadastrar Medicamentos</a>
-          <a class="btn btn--outline" href="configuracoes.html">Configurações</a>
-      </nav>
     </section>
   </main>
   <footer class="footer">
@@ -29,6 +73,72 @@
   </footer>
   <script src="assets/js/session.js"></script>
   <script src="assets/js/theme.js"></script>
+  <script>
+  (function(){
+    function normalizePhone(v){ return (v||'').replace(/\D+/g,''); }
+    function loadUsers(){ try { return JSON.parse(localStorage.getItem('medtime.users')||'[]'); } catch(e){ return []; } }
+    function saveUsers(list){ try { localStorage.setItem('medtime.users', JSON.stringify(list||[])); } catch(_){} }
+    function loadSession(){ try { return JSON.parse(localStorage.getItem('medtime.session')||'null'); } catch(e){ return null; } }
+    function findUserByPhone(users, phone){ phone = normalizePhone(phone); return users.find(function(u){ return normalizePhone(u.phone)===phone; }); }
+    function showMsg(text, type){ var el = document.getElementById('pf-messages'); if(!el) return; el.textContent = text||''; el.style.color = type==='error'?'#DC2626':(type==='success'?'#16A34A':''); }
+
+    function fillForm(u){ if(!u) return; 
+      document.getElementById('pf-first-name').value = u.firstName||'';
+      document.getElementById('pf-last-name').value = u.lastName||'';
+      document.getElementById('pf-birth-date').value = u.birthDate||'';
+      document.getElementById('pf-phone').value = u.phone||'';
+      document.getElementById('pf-gender').value = u.gender||'';
+      document.getElementById('pf-height').value = (u.heightCm!=null?u.heightCm:'');
+      document.getElementById('pf-weight').value = (u.weightKg!=null?u.weightKg:'');
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
+      var sess = loadSession(); if(!sess) return;
+      var users = loadUsers();
+      var current = findUserByPhone(users, sess.phone);
+      fillForm(current);
+
+      var form = document.getElementById('profileForm');
+      if(form){
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+          var firstName = document.getElementById('pf-first-name').value.trim();
+          var lastName = document.getElementById('pf-last-name').value.trim();
+          var birthDate = document.getElementById('pf-birth-date').value.trim();
+          var phone = normalizePhone(document.getElementById('pf-phone').value);
+          var gender = document.getElementById('pf-gender').value;
+          var height = document.getElementById('pf-height').value;
+          var weight = document.getElementById('pf-weight').value;
+          if(!firstName || !lastName || !birthDate || !phone){ showMsg('Preencha os campos obrigatórios.', 'error'); return; }
+          if(phone.length < 10){ showMsg('Telefone inválido.', 'error'); return; }
+          if(current && normalizePhone(current.phone)!==phone){
+            if(users.some(function(u){ return normalizePhone(u.phone)===phone; })){
+              showMsg('Telefone já cadastrado por outro usuário.', 'error');
+              return;
+            }
+          }
+          var next = users.map(function(u){
+            if(current && normalizePhone(u.phone)===normalizePhone(current.phone)){
+              return Object.assign({}, u, {
+                firstName:firstName,
+                lastName:lastName,
+                birthDate:birthDate,
+                phone:phone,
+                gender:gender || undefined,
+                heightCm: height? Number(height): undefined,
+                weightKg: weight? Number(weight): undefined
+              });
+            }
+            return u;
+          });
+          saveUsers(next);
+          try { localStorage.setItem('medtime.session', JSON.stringify({ phone: phone, loggedAt: Date.now() })); } catch(_){}
+          showMsg('Perfil atualizado com sucesso.', 'success');
+        });
+      }
+    });
+  })();
+  </script>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>

@@ -9,19 +9,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="header">
-    <a href="index.html" class="logo">MedTime</a>
+  <header class="topbar">
+    <a href="lista-medicamentos.html" class="topbar__brand" aria-label="MedTime">MedTime</a>
+    <nav class="topbar__nav" aria-label="Navegação principal">
+      <a class="btn btn--ghost btn--sm" href="perfil.html">Perfil</a>
+      <a class="btn btn--ghost btn--sm" href="lista-medicamentos.html">Lista</a>
+      <a class="btn btn--ghost btn--sm" href="cadastrar-medicamentos.html">Cadastrar</a>
+      <a class="btn btn--outline btn--sm" href="configuracoes.html">Configurações</a>
+      <button type="button" class="btn btn--primary btn--sm" onclick="window.MedTimeSession.logout()">Sair</button>
+    </nav>
   </header>
   <main class="main">
     <section class="section">
       <h1 class="section__title">Cadastrar Medicamentos</h1>
       
-      <nav class="app-nav">
-        <a class="btn btn--outline" href="perfil.html">Perfil</a>
-        <a class="btn btn--outline" href="lista-medicamentos.html">Lista Medicamentos</a>
-        <a class="btn btn--outline" href="cadastrar-medicamentos.html">Cadastrar Medicamentos</a>
-        <a class="btn btn--outline" href="configuracoes.html">Configurações</a>
-      </nav>
+      
     </section>
   </main>
   <footer class="footer">
