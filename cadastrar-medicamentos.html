@@ -22,7 +22,53 @@
   <main class="main">
     <section class="section">
       <h1 class="section__title">Cadastrar Medicamentos</h1>
-      
+      <form id="medForm" class="auth-card__form" novalidate>
+        <div class="form-field">
+          <label for="med-name" class="form-field__label">Nome do Medicamento</label>
+          <input type="text" id="med-name" class="form-field__input" required>
+        </div>
+        <div class="form-field" style="display:flex; gap:.75rem;">
+          <div style="flex:1;">
+            <label for="med-dose-amount" class="form-field__label">Dosagem</label>
+            <input type="number" id="med-dose-amount" class="form-field__input" inputmode="decimal" min="0" step="0.1" placeholder="500" required>
+          </div>
+          <div style="flex:1;">
+            <label for="med-dose-unit" class="form-field__label">Unidade</label>
+            <select id="med-dose-unit" class="form-field__input" required>
+              <option value="mg">mg</option>
+              <option value="ml">ml</option>
+              <option value="g">g</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="med-frequency" class="form-field__label">Frequência diária</label>
+          <select id="med-frequency" class="form-field__input" required>
+            <option value="1">1x ao dia (24h)</option>
+            <option value="2">2x ao dia (12h)</option>
+            <option value="3">3x ao dia (8h)</option>
+            <option value="4">4x ao dia (6h)</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="med-first-time" class="form-field__label">Hora da primeira dose</label>
+          <input type="time" id="med-first-time" class="form-field__input" required>
+        </div>
+        <div class="form-field" style="display:flex; gap:.75rem;">
+          <div style="flex:1;">
+            <label for="med-start" class="form-field__label">Início</label>
+            <input type="date" id="med-start" class="form-field__input" required>
+          </div>
+          <div style="flex:1;">
+            <label for="med-end" class="form-field__label">Fim</label>
+            <input type="date" id="med-end" class="form-field__input" required>
+          </div>
+        </div>
+        <div class="auth-card__actions">
+          <button type="submit" class="btn btn--primary">Salvar</button>
+          <button type="button" id="med-cancel" class="btn btn--outline">Cancelar</button>
+        </div>
+      </form>
       
     </section>
   </main>
@@ -31,6 +77,8 @@
   </footer>
   <script src="assets/js/session.js"></script>
   <script src="assets/js/theme.js"></script>
+  <script src="assets/js/nav.js"></script>
+  <script src="assets/js/meds.js"></script>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
