@@ -1,4 +1,3 @@
-/* ALTERAÇÃO: variáveis de tema (claro) */
 :root {
   --color-primary: #6FA3A5;
   --color-primary-hover: #578486;
@@ -12,8 +11,6 @@
   --font-main: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
 }
 
-/* Tema escuro usando atributo no html */
-/* ALTERAÇÃO: overrides para tema escuro */
 :root[data-theme="dark"] {
   --color-light: #0B1220;
   --color-text: #E2E8F0;
@@ -33,13 +30,27 @@ body {
     background: var(--color-light); 
     color: var(--color-text); 
     min-height: 100vh; }
+/* Skip link e foco visível usados no index */
+.skip-link { position:absolute; left:-9999px; top:0; background:#fff; color:var(--color-text); padding:.5rem 1rem; border:2px solid var(--color-primary); border-radius:6px; z-index:1000; }
+.skip-link:focus { left:.75rem; top:.75rem; }
+:focus-visible { outline: 3px solid var(--color-outline); outline-offset: 2px; }
 .header { width: 100%; padding: 1.25rem 1rem 0.5rem; text-align: center; }
 .logo { font-size: 1.75rem; font-weight: 600; color: var(--color-primary); text-decoration: none; letter-spacing: 0.02em; }
 .main { display: flex; flex-direction: column; align-items: center; min-height: 70vh; justify-content: center; }
+.main--landing { min-height: calc(100vh - 120px); justify-content: flex-start; padding: 1rem 1.25rem 2rem; }
+.hero { width:100%; max-width:1280px; display:flex; flex-direction:column; gap:2.5rem; align-items:stretch; position:relative; }
+.hero__content { max-width:640px; display:flex; flex-direction:column; gap:1.25rem; }
+.hero__brand { display:inline-block; background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600; }
+.hero__title { font-size: clamp(1.85rem, 4vw, 2.75rem); line-height:1.15; margin:0; font-weight:600; }
+.hero__subtitle { font-size:1.125rem; margin:0 0 .5rem; color:#334155; font-weight:500; }
+.hero__note { font-size:.85rem; color:#64748b; margin-top:.25rem; }
+.hero__actions { display:flex; flex-wrap:wrap; gap:1rem; margin-top:.25rem; }
+.hero__visual { flex:1; display:flex; align-items:center; justify-content:center; min-height:260px; position:relative; }
+.hero__illustration { max-width:100%; height:auto; }
+@media (min-width:880px){ .hero{ flex-direction:row; align-items:center; } .hero__content{ flex:1; } .hero__visual{ flex:1; } }
 .footer { width: 100%; text-align: center; padding: 1.5rem 0 1rem; font-size: 1rem; color: #64748b; }
 .footer a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 2px; margin: 0 0.3em; }
 
-/* Botões */
 .btn { display:inline-block; padding:0.85rem 1.1rem; font-size:1.05rem; font-weight:600; border-radius:0.55rem; border:1px solid transparent; cursor:pointer; text-decoration:none; text-align:center; box-shadow:0 2px 8px var(--color-shadow); transition:background .2s, box-shadow .2s, color .2s, border-color .2s; }
 .btn--primary { background: var(--color-primary); color: #fff; }
 .btn--primary:hover, .btn--primary:focus { background: var(--color-primary-hover); outline: 2px solid var(--color-outline); }
@@ -49,26 +60,21 @@ body {
 .btn--ghost:hover, .btn--ghost:focus { background: rgba(148,163,184,.12); outline: 2px solid var(--color-outline); }
 .btn--lg { padding: 1rem 1.4rem; font-size: 1.15rem; }
 
-/* Seções gerais */
 .section { width:100%; max-width: 860px; margin: 2rem auto; padding: 0 1rem; }
 .section__title { font-size: clamp(1.5rem, 3.5vw, 2rem); margin: 0 0 1rem; font-weight: 700; }
 .section__subtitle { margin: 0 0 1.5rem; color: #64748b; }
 
-/* ALTERAÇÃO: Navegação da área logada */
 .app-nav { display:flex; flex-wrap:wrap; gap: .75rem; margin: 1rem 0 2rem; }
 .app-nav .btn { min-width: 220px; }
 
-/* Inputs e formulários (compatível com páginas existentes) */
 .form-field { display:flex; flex-direction:column; margin-bottom: 1rem; }
 .form-field__label { font-weight:500; margin-bottom: .35rem; }
 .form-field__input { padding: .7rem .9rem; border:1px solid #33415522; border-radius:.5rem; font-size:1rem; background: var(--color-card-bg); color: var(--color-text); }
 .form-field__input:focus { outline: 2px solid var(--color-outline); }
 
-/* Utilidades */
 .center { display:flex; align-items:center; justify-content:center; }
 .stack { display:flex; flex-direction:column; gap: .75rem; }
 
-/* ALTERAÇÃO: Toggle de modo escuro */
 .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
 .switch input { opacity: 0; width: 0; height: 0; }
 .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .2s; border-radius: 28px; }

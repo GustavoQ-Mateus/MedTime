@@ -1,4 +1,3 @@
-// ALTERAÇÃO: autenticação usando localStorage (versão review)
 (function(){
   'use strict';
   function byId(id){ return document.getElementById(id); }
@@ -36,7 +35,6 @@
         var user = loadUsers().find(function(u){ return normalizePhone(u.phone)===phone && u.password===password; });
         if(!user){ showMessage(msg, 'Credenciais inválidas.', 'error'); return; }
         setSession({ phone: phone, loggedAt: Date.now() });
-  // ALTERAÇÃO: após login, redireciona para a tela "Lista Medicamentos" (review)
   window.location.href = 'lista-medicamentos.html';
   }
   document.addEventListener('DOMContentLoaded', function(){
