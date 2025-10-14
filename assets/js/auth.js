@@ -13,7 +13,10 @@
         var firstName = byId('first-name')?.value?.trim();
         var lastName = byId('last-name')?.value?.trim();
         var birthDate = byId('birth-date')?.value?.trim();
-        var phone = normalizePhone(byId('register-phone')?.value);
+  var phone = normalizePhone(byId('register-phone')?.value);
+  var gender = byId('register-gender')?.value || '';
+  var height = byId('register-height')?.value;
+  var weight = byId('register-weight')?.value;
         var password = byId('register-password')?.value||'';
         var confirm = byId('confirm-password')?.value||'';
         if(!firstName || !lastName || !birthDate || !phone || !password || !confirm){ showMessage(msg, 'Preencha todos os campos obrigatórios.', 'error'); return; }
@@ -21,7 +24,16 @@
         if(phone.length < 10){ showMessage(msg, 'Telefone inválido. Use DDD + número.', 'error'); return; }
         var users = loadUsers();
         if(users.some(function(u){ return normalizePhone(u.phone)===phone; })){ showMessage(msg, 'Telefone já cadastrado.', 'error'); return; }
-        users.push({ firstName:firstName, lastName:lastName, birthDate:birthDate, phone:phone, password:password });
+        users.push({ 
+          firstName:firstName, 
+          lastName:lastName, 
+          birthDate:birthDate, 
+          phone:phone, 
+          password:password,
+          gender: gender || undefined,
+          heightCm: height ? Number(height) : undefined,
+          weightKg: weight ? Number(weight) : undefined
+        });
         saveUsers(users);
         showMessage(msg, 'Cadastro realizado com sucesso.', 'success');
         setTimeout(function(){ window.location.href = 'index.html'; }, 500);
