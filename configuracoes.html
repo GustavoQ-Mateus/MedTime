@@ -11,10 +11,11 @@
 <body>
   <header class="topbar">
     <a href="lista-medicamentos.html" class="topbar__brand" aria-label="MedTime">MedTime</a>
+    <button class="topbar__toggle" aria-label="Abrir menu" aria-expanded="false" onclick="(function(btn){ var h=btn.closest('.topbar'); var open=h.classList.toggle('is-open'); btn.setAttribute('aria-expanded', open?'true':'false'); })(this)"><span></span><span></span><span></span></button>
       <nav class="topbar__nav" aria-label="Navegação principal">
-        <a class="btn btn--ghost btn--sm" href="perfil.html">Perfil</a>
-        <a class="btn btn--ghost btn--sm" href="lista-medicamentos.html">Lista</a>
-        <a class="btn btn--ghost btn--sm" href="cadastrar-medicamentos.html">Cadastrar</a>
+        <a class="btn btn--outline btn--sm" href="perfil.html">Editar Perfil</a>
+        <a class="btn btn--outline btn--sm" href="lista-medicamentos.html">Lista Medicamentos</a>
+        <a class="btn btn--outline btn--sm" href="cadastrar-medicamentos.html">Cadastrar Medicamentos</a>
         <a class="btn btn--outline btn--sm" href="configuracoes.html">Configurações</a>
         <button type="button" class="btn btn--primary btn--sm" onclick="window.MedTimeSession.logout()">Sair</button>
       </nav>
