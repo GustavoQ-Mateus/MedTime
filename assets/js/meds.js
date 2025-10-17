@@ -8,25 +8,29 @@
   function byId(id){ return document.getElementById(id); }
   function qs(sel,root){ return (root||document).querySelector(sel); }
 
+  // Date helpers (store as YYYY-MM-DD to avoid UTC shift)
+  function isYMD(s){ return typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s); }
+  function toYMD(d){ var y=d.getFullYear(); var m=String(d.getMonth()+1).padStart(2,'0'); var day=String(d.getDate()).padStart(2,'0'); return y+'-'+m+'-'+day; }
+  function parseYMD(s){ if(!isYMD(s)) return null; var a=s.split('-'); return new Date(Number(a[0]), Number(a[1])-1, Number(a[2]), 0,0,0,0); }
+  function localDateFromStored(v){ if(!v) return null; if(isYMD(v)) return parseYMD(v); var dt = new Date(v); if(isNaN(dt)) return null; return parseYMD(toYMD(dt)); }
+
   function freqToIntervalHours(freq){
-    // freq options: 1,2,3,4 times per day
     var map = { '1': 24, '2': 12, '3': 8, '4': 6 };
     return map[String(freq)] || 24;
   }
 
-  function parseTimeHHMM(t){ // returns {h,m}
+  function parseTimeHHMM(t){
     var m = /^(\d{1,2}):(\d{2})$/.exec(t||'');
     if(!m) return {h:8,m:0};
     var h = Math.max(0, Math.min(23, parseInt(m[1],10)));
     var mi = Math.max(0, Math.min(59, parseInt(m[2],10)));
     return {h:h,m:mi};
   }
-  function atDateTime(d, time){ // make Date with date from d and time {h,m}
+  function atDateTime(d, time){
     var dt = new Date(d.getFullYear(), d.getMonth(), d.getDate(), time.h, time.m, 0, 0);
     return dt;
   }
   function nextDoseFrom(now, firstDose, intervalHours, startDate, endDate){
-    // Ensure within treatment window
     var start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), firstDose.getHours(), firstDose.getMinutes(),0,0);
     var end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23,59,59,999);
     if(now < start) return start; // next is the first dose
@@ -81,8 +85,8 @@
         var med = list[i];
         var tObj = parseTimeHHMM(med.firstDoseTime);
         var interval = freqToIntervalHours(med.frequencyPerDay);
-        var startDate = new Date(med.startDate);
-        var endDate = new Date(med.endDate);
+        var startDate = localDateFromStored(med.startDate) || new Date();
+        var endDate = localDateFromStored(med.endDate) || new Date();
         var firstDose = atDateTime(startDate, tObj);
         var next = nextDoseFrom(now, firstDose, interval, startDate, endDate);
         var nextSpan = li.querySelector('.next-time');
@@ -108,9 +112,11 @@
     var dialog = document.createElement('div'); dialog.className='modal__dialog';
     var title = document.createElement('h3'); title.className='modal__title'; title.textContent = med.name;
     var body = document.createElement('div'); body.className='modal__body';
+    var sd = localDateFromStored(med.startDate);
+    var ed = localDateFromStored(med.endDate);
     body.innerHTML = '<div class="card__meta">'+
       (med.dosageAmount+' '+med.dosageUnit)+' • '+(med.frequencyPerDay)+'x/dia'+
-      '<br>Janela: '+ new Date(med.startDate).toLocaleDateString() +' — '+ new Date(med.endDate).toLocaleDateString() +
+      '<br>Janela: '+ (sd? sd.toLocaleDateString(): '-') +' — '+ (ed? ed.toLocaleDateString(): '-') +
     '</div>';
     var actions = document.createElement('div'); actions.className='modal__actions';
     var btnEdit = document.createElement('button'); btnEdit.className='btn btn--primary'; btnEdit.textContent='Editar';
@@ -156,8 +162,10 @@
         byId('med-dose-unit').value = med.dosageUnit || 'mg';
         byId('med-frequency').value = String(med.frequencyPerDay || '1');
         byId('med-first-time').value = med.firstDoseTime || '';
-        byId('med-start').value = med.startDate ? (new Date(med.startDate)).toISOString().slice(0,10) : '';
-        byId('med-end').value = med.endDate ? (new Date(med.endDate)).toISOString().slice(0,10) : '';
+        var sds = med.startDate ? (isYMD(med.startDate) ? med.startDate : (function(){ var d=localDateFromStored(med.startDate); return d? toYMD(d): ''; })()) : '';
+        var eds = med.endDate ? (isYMD(med.endDate) ? med.endDate : (function(){ var d=localDateFromStored(med.endDate); return d? toYMD(d): ''; })()) : '';
+        byId('med-start').value = sds;
+        byId('med-end').value = eds;
         var h1 = document.querySelector('.section__title'); if(h1) h1.textContent = 'Editar Medicamento';
       }
     }
@@ -172,8 +180,8 @@
       var start = byId('med-start').value; // YYYY-MM-DD
       var end = byId('med-end').value; // YYYY-MM-DD
       if(!name || !amount || !unit || !freq || !firstTime || !start || !end){ alert('Preencha todos os campos.'); return; }
-      var startDate = new Date(start);
-      var endDate = new Date(end);
+      var startDate = parseYMD(start);
+      var endDate = parseYMD(end);
       if(endDate < startDate){ alert('Data de término deve ser após a data de início.'); return; }
       var meds = loadMeds();
       if(editId){
@@ -185,8 +193,8 @@
               dosageUnit: unit,
               frequencyPerDay: Number(freq),
               firstDoseTime: firstTime,
-              startDate: startDate.toISOString(),
-              endDate: endDate.toISOString()
+              startDate: start, // store as YYYY-MM-DD
+              endDate: end // store as YYYY-MM-DD
             });
           }
           return x;
@@ -199,8 +207,8 @@
           dosageUnit: unit,
           frequencyPerDay: Number(freq),
           firstDoseTime: firstTime,
-          startDate: startDate.toISOString(),
-          endDate: endDate.toISOString(),
+          startDate: start,
+          endDate: end,
           createdAt: Date.now()
         });
       }
