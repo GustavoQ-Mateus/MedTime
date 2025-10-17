@@ -30,7 +30,6 @@ body {
     background: var(--color-light); 
     color: var(--color-text); 
     min-height: 100vh; }
-/* Skip link e foco visível usados no index */
 .skip-link { position:absolute; left:-9999px; top:0; background:#fff; color:var(--color-text); padding:.5rem 1rem; border:2px solid var(--color-primary); border-radius:6px; z-index:1000; }
 .skip-link:focus { left:.75rem; top:.75rem; }
 :focus-visible { outline: 3px solid var(--color-outline); outline-offset: 2px; }
@@ -51,7 +50,6 @@ body {
 .footer { width: 100%; text-align: center; padding: 1.5rem 0 1rem; font-size: 1rem; color: #64748b; }
 .footer a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 2px; margin: 0 0.3em; }
 
-/* Topbar fixa para área autenticada */
 .topbar { position: sticky; top: 0; z-index: 50; width: 100%; background: var(--color-card-bg); border-bottom: 1px solid #33415522; display: flex; align-items: center; justify-content: space-between; padding: calc(.6rem + env(safe-area-inset-top, 0px)) calc(1rem + env(safe-area-inset-right, 0px)) .6rem calc(1rem + env(safe-area-inset-left, 0px)); }
 .topbar__brand { font-weight: 700; font-size: 1.1rem; color: var(--color-primary); text-decoration: none; letter-spacing: .02em; }
 .topbar__nav { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
@@ -60,7 +58,6 @@ body {
 .btn--sm { padding: .5rem .7rem; font-size: .95rem; box-shadow: none; }
 .topbar__nav a.is-active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
 
-/* Lista de medicamentos */
 .list { display: grid; gap: .75rem; padding: 0; margin: 0; list-style: none; }
 .card { background: var(--color-card-bg); border: 1px solid #33415522; border-radius: .6rem; padding: .9rem; box-shadow: 0 2px 6px var(--color-shadow); display: grid; gap: .4rem; }
 .card { cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; }
@@ -70,13 +67,11 @@ body {
 .badge { display: inline-block; padding: .15rem .5rem; border: 1px solid #94a3b8; border-radius: 999px; font-size: .85rem; color: #334155; }
 .countdown { font-variant-numeric: tabular-nums; font-weight: 600; }
 
-/* Melhorar alvos de toque em telas touch */
 @media (pointer: coarse) {
   .btn, .btn.btn--sm { min-height: 44px; }
   .topbar__nav a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 }
 
-/* Tipografia responsiva */
 @media (min-width: 768px) {
   .section__title { font-size: clamp(1.8rem, 2.2vw, 2.4rem); }
   .hero__title { font-size: clamp(2rem, 3vw, 3rem); }
@@ -86,7 +81,6 @@ body {
   .hero__title { font-size: clamp(2.25rem, 3.2vw, 3.5rem); }
 }
 
-/* Nav hamburguer em telas estreitas */
 @media (max-width: 640px) {
   .topbar { align-items: center; }
   .topbar__toggle { display: inline-block; }
@@ -94,7 +88,6 @@ body {
   .topbar.is-open .topbar__nav { display: flex; flex-wrap: wrap; gap: .5rem; }
 }
 
-/* Espaçamento e grid responsivos para a lista */
 @media (max-width: 640px) {
   .list { gap: 1rem; }
 }
@@ -102,11 +95,9 @@ body {
   .list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (min-width: 1024px) {
-  /* Tornar os cards mais largos no desktop */
   .list { grid-template-columns: repeat(auto-fit, minmax(520px, 1fr)); }
 }
 
-/* Modal simples */
 .modal { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 100; }
 .modal__backdrop { position: absolute; inset: 0; background: rgba(2,6,23,.45); }
 .modal__dialog { position: relative; background: var(--color-card-bg); border-radius: .75rem; box-shadow: 0 8px 30px var(--color-shadow); padding: 1rem; width: min(520px, 92vw); border: 1px solid #33415522; }
