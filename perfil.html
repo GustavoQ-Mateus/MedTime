@@ -113,7 +113,7 @@
           var height = document.getElementById('pf-height').value;
           var weight = document.getElementById('pf-weight').value;
           if(!firstName || !lastName || !birthDate || !phone){ showMsg('Preencha os campos obrigatórios.', 'error'); return; }
-          if(phone.length < 10){ showMsg('Telefone inválido.', 'error'); return; }
+          if(phone.length !== 11){ showMsg('Telefone inválido. Use DDD + 9 dígitos (11 no total).', 'error'); return; }
           if(current && normalizePhone(current.phone)!==phone){
             if(users.some(function(u){ return normalizePhone(u.phone)===phone; })){
               showMsg('Telefone já cadastrado por outro usuário.', 'error');
