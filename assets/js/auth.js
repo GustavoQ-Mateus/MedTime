@@ -21,7 +21,7 @@
         var confirm = byId('confirm-password')?.value||'';
         if(!firstName || !lastName || !birthDate || !phone || !password || !confirm){ showMessage(msg, 'Preencha todos os campos obrigatórios.', 'error'); return; }
         if(password !== confirm){ showMessage(msg, 'As senhas não coincidem.', 'error'); return; }
-        if(phone.length < 10){ showMessage(msg, 'Telefone inválido. Use DDD + número.', 'error'); return; }
+  if(phone.length !== 11){ showMessage(msg, 'Telefone inválido. Use DDD + 9 dígitos (11 no total).', 'error'); return; }
         var users = loadUsers();
         if(users.some(function(u){ return normalizePhone(u.phone)===phone; })){ showMessage(msg, 'Telefone já cadastrado.', 'error'); return; }
         users.push({ 
@@ -43,7 +43,8 @@
         var form = e.currentTarget; var msg = qs('.form-messages', form);
         var phone = normalizePhone(byId('login-phone')?.value);
         var password = byId('login-password')?.value||'';
-        if(!phone || !password){ showMessage(msg, 'Informe telefone e senha.', 'error'); return; }
+  if(!phone || !password){ showMessage(msg, 'Informe telefone e senha.', 'error'); return; }
+  if(phone.length !== 11){ showMessage(msg, 'Telefone inválido. Use DDD + 9 dígitos (11 no total).', 'error'); return; }
         var user = loadUsers().find(function(u){ return normalizePhone(u.phone)===phone && u.password===password; });
         if(!user){ showMessage(msg, 'Credenciais inválidas.', 'error'); return; }
         setSession({ phone: phone, loggedAt: Date.now() });
