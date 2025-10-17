@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (firstInput) firstInput.focus();
     registerForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      console.log('Formulário de cadastro acionado');
     });
   }
   if (loginForm) {
@@ -18,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (firstInput) firstInput.focus();
     loginForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      console.log('Formulário de login acionado');
     });
   }
 });
